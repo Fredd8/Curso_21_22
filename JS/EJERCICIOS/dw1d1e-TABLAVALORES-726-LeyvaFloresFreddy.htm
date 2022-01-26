@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<script src="myScript.js"></script>-->
+    <title>Document</title>
+    <style>
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table td, table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        table tr:nth-child(odd){background-color: #f2f2f2;}
+        table tr:hover {background-color: #ddd;}
+        table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+
+    <script>
+        window.onload = textoCsv;
+        var limite = 12; // Limite de datos generados
+
+        function textoCsv(){
+            var div=creaNodo(`div`);
+            div.innerHTML=`
+            <b>EJEMPLO</b> de tabla de valores<br/><br/>
+            1) texto csv :<br/>
+            x#cos(x#seno(x)#seno(x)#14 decimales#x con decimales<br/>
+            `;
+            let datos = ``;
+            for (let i = 0; i < limite; i+=0.2) {
+                datos+=`${i.toFixed(2)}#${Math.cos(i).toFixed(2)}#${Math.sin(i).toFixed(2)}#${Math.sin(i)}#${i.toFixed(14)}#${i}<br/>`;                
+            }
+            //console.log(datos); // Texto entero
+            div.innerHTML+=`${datos}<br/>`;
+            tablaValores(datos);
+        }
+
+        function tablaValores(datos){
+            var div=creaNodo(`div`);
+            div.innerHTML=`
+                2) tabla de valores en tabla:<br/>
+                <table id="tabla">
+                    <thead>
+                        <tr>
+                            <th>x</th>
+                            <th>cos(x)</th>
+                            <th>seno(x)</th>
+                            <th>seno(x)</th>
+                            <th>14 decimales</th>
+                            <th>x con decimales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            `;
+            var table = document.getElementsByTagName(`tbody`);
+            let array = datos.split(`<br/>`); // Array[]
+            //console.log(fila);
+            for (let arr of array) {
+                //console.log(i);
+                let array_datos = arr.split(`#`);
+                //console.log(info);
+                let estructura = `<tr>`;
+                for (let i of array_datos) {
+                    estructura += `<td>${i}</td>`;
+                }
+                estructura+=`</tr>`;
+                table[0].innerHTML+=estructura;
+            }
+            canvas(datos);
+
+        }
+
+        function canvas(datos){
+            var div=creaNodo(`div`);
+            div.innerHTML=`<br/>3) en un canvas`;
+            var canvas=creaNodo(`canvas`);
+            canvas.style.width=`500px`;
+            canvas.style.height=`250px`;
+            canvas.style.backgroundColor=`grey`;
+            
+            var context = canvas.getContext(`2d`);
+            context.beginPath(); // Inicio -> tipo de interfaz
+            let array = datos.split(`<br/>`); // Array[]
+            for (let arr of array) {
+                //console.log(i);
+                let array_datos = arr.split(`#`);
+                //console.log(info);
+                let x=array_datos[0],y=array_datos[1];
+                context.lineTo(20+20*x,70+30*y);
+            }
+
+            context.stroke(); // Fin -> dibuja el path definido
+        }
+
+        function creaNodo(tipo){
+            var ele=document.createElement(tipo);
+            document.body.appendChild(ele);
+            return ele;
+        }
+        
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
+

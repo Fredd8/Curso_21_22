@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang=`en`>
+<head>
+<title>Document</title>
+    <script>
+        window.onload = inicio;
+        const NUM = 10;
+        function inicio(){
+            const ArrayDeObj = crearArrayObj();
+            // console.log(ArrayDeObj);
+            genTittle(`Listado (texto: nivel y version)`);
+            genTabla(ArrayDeObj);
+            genTittle(`Ascendente x version`);
+            genTabla((ArrayDeObj.sort(function(a, b){return a.version - b.version})));
+            genTittle(`Descendente x version`);
+            genTabla((ArrayDeObj.sort(function(a, b){return b.version - a.version})));
+            genTittle(`Filtrado x version`);
+            genTabla(ArrayDeObj.filter(versionS => 0 <= versionS.version && versionS.version <= 5));
+            genTittle(`<b>suma</b> ${ArrayDeObj.map(item => item.version).reduce((prev, curr) => prev + curr)}`);
+                // Duda (?): prev + curr || prev += curr || curr += prev
+        }
+
+        function genTittle(texto){
+            var ele=creaNodo(`div`);
+            ele.innerHTML+=`&nbsp${texto}`;
+            ele.style.width=`700px`;
+            ele.style.paddingBottom=`3px`;
+            ele.style.border=`1px solid grey`;
+            ele.style.marginBottom=`5px`;
+            ele.style.cssFloat=`left`;
+        }
+
+        function genTabla(obj){
+            // console.log(obj);
+            var div=creaNodo(`div`);
+            div.style.width=`700px`;
+            div.style.height=`auto`;
+            div.style.border=`1px solid black`;
+            obj.forEach(element => {
+                let ache = document.createElement(`div`);
+                ache.innerHTML+=`${element.texto}:${element.nivel}<br>${element.version}`;
+                ache.style.height=element.alto;
+                ache.style.width=element.ancho;
+                ache.style.textAlign=`center`;
+                ache.style.border=`1px solid black`; 
+                ache.style.backgroundColor=element.color;
+                ache.style.margin=`3px`;
+                ache.style.cssFloat=`left`;
+                div.append(ache);
+            });
+            div.style.marginBottom=`5px`;
+            div.style.cssFloat=`left`;
+        }
+        
+        function crearArrayObj(){
+            const array = [];
+            for (let i = 0; i < NUM; i++) {
+                array[i] = {
+                alto: alto(),
+                ancho: ancho(),
+                color: rgb(),
+                texto: generarLetra(),
+                nivel: generarNivel(),
+                version: aleatorio(0,10)
+                };
+            }
+            return array;
+        }
+
+        function alto(){
+            let ram = Math.random();
+            if (ram < 0.33) { 
+                return `50px`;
+            } else if (ram < 0.66) { 
+                return `70px`;
+            } else if (ram < 0.99) {
+                return `90px`; 
+            }
+        }        
+        
+        function ancho(){
+            return (Math.random() < 0.5 ? `40px` : `60px`);
+        }
+
+        function rgb(){
+            var aleX = aleatorio(0,255);
+            var aleY = aleatorio(0,255);
+            var aleZ = aleatorio(0,255);
+            // console.log(aleX+`,`+aleY+`,`+aleZ);
+            var texto = `rgb(` + aleX + `,` + aleY + `,` + aleZ + `)`;
+            return texto;
+        }     
+
+        function generarLetra(){
+            var letras = [`A`,`B`,`C`,`D`,`E`,`F`,`G`,`H`,`I`,`J`,`K`,`L`];
+            var numero = (Math.random()*11).toFixed(0);
+            return letras[numero];
+        }
+   
+        function generarNivel(){
+            const characters =`ABC`;
+            return characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+
+        function aleatorio(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+    
+        function creaNodo(tipo){
+            var ele=document.createElement(tipo);
+            document.body.appendChild(ele);
+            return ele;
+        }
+
+    </script>
+</head>
+<body>
+</body>
+</html>
+

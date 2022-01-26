@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<script src="myScript.js"></script>-->
+    <title>Document</title>
+        <!--
+            Falta:
+                Ejercicio dinámico
+        -->
+    <style>
+        #divGeneral div{
+            display:inline-block;
+            width:70px;
+            height:20px;
+            text-align:center;
+            background-color:white;
+            border:1px solid silver;
+            margin:5px;
+        }
+        #divMigas {
+            margin: 10px;
+        }     
+        #divMigas *{
+           /* width: 200px;
+            height: 20px;*/
+            float: left;
+            margin: 0 5px 0 5px;
+            border-bottom: 1px solid black;
+        }
+
+    </style>
+    <script>
+        window.onload = iniciar;
+        const newArray=[];
+        var datos = [
+                `A1#america#00`,
+                `A2#europa#00`,
+                `A3#africa#00`,
+                `A4#asia#00`,
+                `B1#canada#A1`,
+                `B2#eeuu#A1`,
+                `B3#brasil#A1`,
+                `B4#argentina#A1`,
+                `B5#urugay#A1`,
+                `B6#chile#A1`,
+                `B7#francia#A2`,
+                `B8#italia#A2`,
+                `C1#toronto#B1`,
+                `C2#quebec#B1`,
+                `C3#lyon#B7`,
+                `C4#paris#B7`,
+                `C5#bayona#B7`,
+                `C6#nantes#B7`,
+                `C7#toulouse#B7`
+                ];
+       
+        function iniciar(){
+            extraerDatos();
+            mostrarDatos();
+            crearMenu();
+            crearNodoDiv(`div`,`divGeneral`);
+            clickContinentes();
+        }
+
+        function crearMenu(){
+            var divMigas = crearNodoDiv(`div`,`divMigas`);
+
+            var migas_home = crearNodoDiv(`div`,`migas_home`);
+            migas_home.addEventListener(`click`,clickContinentes);
+            migas_home.codigo='';
+            migas_home.innerHTML=`home`;
+
+            var migas_continentes = crearNodoDiv(`div`,`migas_continentes`);
+            migas_continentes.addEventListener(`click`,clickPaises);
+            migas_continentes.codigo='';
+
+            var migas_paises = crearNodoDiv(`div`,`migas_paises`);
+            migas_paises.addEventListener(`click`,clickCiudad);
+            migas_paises.codigo='';
+
+            var migas_ciudades = crearNodoDiv(`div`,`migas_ciudades`);
+            migas_ciudades.addEventListener(`click`,clickVacio);
+            migas_ciudades.codigo='';
+
+            divMigas.appendChild(migas_home);
+            divMigas.appendChild(migas_continentes);
+            divMigas.appendChild(migas_paises);
+            divMigas.appendChild(migas_ciudades);
+            
+        }
+
+        function clickContinentes(){
+            document.getElementById(`migas_continentes`).innerHTML=``;
+            document.getElementById(`migas_paises`).innerHTML=``;
+            document.getElementById(`migas_ciudades`).innerHTML=``;
+            var divCont = document.getElementById(`divGeneral`);
+            divCont.innerHTML=``;
+            divCont.style.clear=`left`;
+            for (var obj of newArray) {
+                if(obj.ancestro==00){
+                    var div = crearNodoDiv(`div`,obj.codigo);
+                    div.innerHTML=obj.nombre;
+                    div.codigo=obj.codigo;
+                    console.log(div);
+                    div.ancestro=obj.ancestro;
+                    div.addEventListener(`mouseover`,divHoverOn);
+                    div.addEventListener(`mouseout`,divHoverOff);
+                    div.addEventListener(`click`,clickPaises);
+                    divCont.appendChild(div);
+                }
+            }
+        }
+
+        function clickPaises(){
+            var continentes = document.getElementById(`migas_continentes`);
+            continentes.innerHTML=this.innerHTML;
+            continentes.codigo=this.codigo;
+            document.getElementById(`migas_paises`).innerHTML=``;
+            document.getElementById(`migas_ciudades`).innerHTML=``;
+            var divCont = document.getElementById(`divGeneral`);
+            divCont.innerHTML=``
+            for (var obj of newArray) {
+                if(obj.ancestro==this.codigo){
+                var div = crearNodoDiv(`div`,obj.codigo);
+                div.innerHTML=obj.nombre;       
+                div.codigo=obj.codigo;
+                div.ancestro=obj.ancestro;
+                div.addEventListener(`mouseover`,divHoverOn);
+                div.addEventListener(`mouseout`,divHoverOff);
+                div.addEventListener(`click`,clickCiudad);
+                divCont.appendChild(div);
+                }
+            }
+        }
+
+        function clickCiudad(){
+            var pais = document.getElementById(`migas_paises`);
+            pais.innerHTML=this.innerHTML;
+            pais.codigo=this.codigo;
+
+            document.getElementById(`migas_ciudades`).innerHTML=``;
+            var divCont = document.getElementById(`divGeneral`);
+            divCont.innerHTML=``;
+            for (var obj of newArray) {
+
+                if(obj.ancestro==this.codigo){
+                var div = crearNodoDiv(`div`,obj.codigo);
+                div.innerHTML=obj.nombre;
+                div.codigo=obj.codigo;
+                div.ancestro=obj.ancestro;
+                div.addEventListener(`mouseover`,divHoverOn);
+                div.addEventListener(`mouseout`,divHoverOff);
+                div.addEventListener(`click`,clickVacio);
+                divCont.appendChild(div);
+                }
+            }
+        }
+        
+        function clickVacio(){
+            var vacio = document.getElementById(`migas_ciudades`);
+            vacio.innerHTML=this.innerHTML;
+            vacio.codigo=this.codigo;
+            var divCont = document.getElementById(`divGeneral`);
+            divCont.innerHTML=``;
+        }
+
+        function mostrarDatos(){
+            var div = crearNodoDiv(`div`,`datos`);
+            div.id=`entradaDatos`;
+            div.innerHTML=`CODIGO#NOMBRE#ANCESTRO<br/>`;
+            for (var i of newArray) {
+                div.innerHTML +=`${i.codigo}#${i.nombre}#${i.ancestro}<br/>`;
+            }
+        }
+
+        function extraerDatos(){
+            let tam = datos.length;
+            for (let i = 0; i < tam; i++) {
+                let datos_array = datos[i].split(`#`);
+                newArray.push({
+                    'codigo' : datos_array[0],
+                    'nombre' : datos_array[1],
+                    'ancestro' : datos_array[2]
+                });
+            }
+            console.log(newArray);
+        }
+
+        function crearNodoDiv(tipo,id){
+            var ele=document.createElement(tipo);
+            document.body.appendChild(ele);
+            ele.id=id;
+            return ele;
+        }
+        
+        function divHoverOn(){
+            this.style.backgroundColor=`grey`;
+        }
+        
+        function divHoverOff(){
+            this.style.backgroundColor=`white`;
+        }
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
+

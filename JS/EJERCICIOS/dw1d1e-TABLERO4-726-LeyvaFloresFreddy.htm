@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<script src="myScript.js"></script>-->
+    <title>Document</title>
+    <script>
+        var nCajas=64;
+        window.onload = cajas;
+        
+        function cajas(){
+            // Crear 'div' especifico
+            for(let i=1, j=1, z=1; i<=nCajas;i++,j++){
+                var ele=creaNodo('div');
+                ele.id='caja'+i;
+                ele.innerHTML='C'+j+z;
+                ele.style.width='50px';
+                ele.style.height='50px';
+                // NUMERO X
+                if(i%8==0){
+                    j=0;
+                    z++;
+                }
+                if ((i-1)%8==0){
+                    ele.style.clear='left';
+                }else{
+                    ele.style.cssFloat='left';
+                }
+                ele.style.cssFloat='left';
+                ele.style.textAlign='center';
+                ele.style.border="1px solid black"; 
+                ele.style.backgroundColor=rgb();
+                ele.addEventListener('click',clickCaja1);
+            }
+        }
+
+        function rgb(){
+            var aleX = aleatorio(0,255);
+            var aleY = aleatorio(0,255);
+            var aleZ = aleatorio(0,255);
+            console.log(aleX+","+aleY+","+aleZ);
+            var texto = 'rgb(' + aleX + ',' + aleY + ',' + aleZ + ')';
+            return texto;
+        }
+
+        function clickCaja1(){
+            for(let i=1; i<=nCajas;i++){
+                var identidad=document.getElementById('caja'+i);
+                identidad.style.backgroundColor=rgb();
+            }
+            this.style.backgroundColor="white";
+        }
+
+        function creaNodo(tipo){
+            // Crear elementos
+            var ele=document.createElement(tipo);
+            document.body.appendChild(ele);
+            return ele;
+        }
+
+        function aleatorio(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
+

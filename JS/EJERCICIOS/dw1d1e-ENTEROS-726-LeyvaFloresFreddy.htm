@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang=`en`>
+<head>
+<title>Document</title>
+    <script>
+    
+        const ale = aleatorio(2,20);
+        window.onload = inicio;
+        function inicio(){
+            for (let i = 0; i <ale; i++) {
+                var textarea = creaNodo("textarea","caja"+i);
+                textarea.style.width=`50px`;
+                textarea.style.height=`10px`;
+                textarea.style.resize=`none`;
+                textarea.style.backgroundColor=`1px solid grey`;
+                //textarea.innerHTML = "";
+                textarea.addEventListener("keyup",clickCaja);
+                textarea.addEventListener("click",clickCaja);
+                
+            }
+            var div = creaNodo("div","resultado");
+        }
+
+        function clickCaja(){
+            const array = [];
+            
+            for(let i=0; i < ale; i++){
+                var textarea = document.getElementById("caja"+i); 
+                array[i] =textarea.value;
+            }
+            console.log(array); // Visualizar Array
+            
+            var div = document.getElementById("resultado");
+            div.innerHTML = ``; // obligatorio -> verificar luego (?)
+            var confirm1 = comprobarEnteros(array);     //console.log(comprobarEnteros(array));
+            div.innerHTML += `<br>`;
+            var confirm2 = comprobarRelleno(array);     //console.log(comprobarRelleno(array));
+
+            if (confirm1 && confirm2){
+                div.innerHTML += `
+                    ordenado descendente: ${array.sort(function(a,b){return b-a}).join(` `)}<br>
+                    ordenado ascendente: ${array.sort(function(a,b){return a-b}).join(` `)}
+                `;
+            }
+           
+        }
+
+        function comprobarEnteros(array){
+            var div = document.getElementById("resultado");
+            let texto = 0;
+            for (let i = 0; i < ale; i++) {
+                if (isNaN(array[i])) {
+                    texto++;
+                }
+            }
+            if (texto>0){
+                div.innerHTML += `alguno no es entero`;
+                return false;
+            }
+            return true;
+        }
+
+        function comprobarRelleno(array){
+            var div = document.getElementById("resultado");
+            let faltan=0;
+            for (let i = 0; i < ale; i++) {
+                if (array[i]==""){
+                    faltan++;
+                }
+            }
+            //console.log(faltan); // Espacios sin completar
+            if (faltan == ale){
+                div.innerHTML += `rellena con enteros`;
+            }else if(faltan == 0){
+                div.innerHTML += ``;
+                return true;
+            }else if(faltan != ale){
+                div.innerHTML += `faltan ${faltan} por rellenar complete`;
+            }
+            return false;
+        }    
+
+        function aleatorio(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function creaNodo(tipo,id){
+            var ele=document.createElement(tipo);
+            ele.id=id;
+            document.body.appendChild(ele);
+            return ele;
+        }
+    
+    </script>
+</head>
+<body>
+</body>
+</html>

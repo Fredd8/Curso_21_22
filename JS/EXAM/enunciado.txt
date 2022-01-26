@@ -1,0 +1,32 @@
+nombre: DW1D1E-PD21-expediente-ApellidoNombre.htm
+tiempo: 90 minutos
+acceso a internet: si
+
+Criterios de evaluación:
+- El nombre del fichero es el indicado arriba.
+- Solo se evaluan los ficheros con el nombre totalmente correcto sino es un cero.
+- Subir a la carpeta de clase, se pueden hacer multiples entregas, se evalua la última dentro del tiempo. Sino se sube nada es un cero. Si solo se sube fuera de tiempo es un cero.
+- Leer este enunciado detenidamente. Durante el examen no hay preguntas.
+- La prueba es en linux y firefox.
+- Los apartados no completos son cero puntos.
+
+Evaluación:
+-Realizar un programa exclusivamente en javascript y estilos.
+-Reproducir las capturas y videos con exactitud.
+-Crear cajas de 90x180 pixel.
+
+Apartados [30]:
+A) Estilos, página inicial y recarga [10]
+- color aleatorio de la primera caja tambien al recargar página [3]
+- borde [1]
+- color y efecto del texto [1]
+- familia de la fuente [1]
+- centrado del texto [4]
+B) Desarrollo [20]
+- originante correcto del click (ver captura de video) [4]
+- formato y números consecutivos del 01 al 15 [2]
+- colores al azar de cada caja [1]
+- tamaño de las cajas según enunciado [1]
+- layout de la página, 4 filas y 15 cajas [5]
+- el último click despues de presentar las 15 cajas inicia el programa [5]
+- despues de reiniciar el programa sigue funcionando todo correctamente [2]

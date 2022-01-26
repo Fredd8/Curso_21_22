@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<script src="myScript.js"></script>-->
+    <title>Document</title>
+    <script>
+        window.onload = cajas;
+        
+        function cajas(){
+            let cadena = ['T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'];
+            let numero=0, letra=``;
+            numero = prompt(`Introduce tú número de DNI (sin la letra)`);
+            letra = prompt(`Introduce la letra de tu DNI (en mayúsculas)`);
+            // console.log(numero,letra);
+            var div=creaNodo(`div`);
+            let final=true;
+            div.innerHTML+=`
+                    <b>número</b>: ${numero}<br>
+                    <b>letra</b>: ${letra}<br>`;
+            try{ 
+                if (numero===""||letra==="") throw `detalle del error: la letra o el numero proporcionados no son correctos<br>`;
+                if (isNaN(numero)) throw `detalle del error: numero no es valido<br>`;
+                if (numero.length != 8) throw `detalle del error: numero fuera de rango<br>`;
+                if (cadena[numero%23]!=letra.toUpperCase()) throw `detalle del error: letra fuera de rango A-Z<br>`;
+            }catch(error){
+                // console.log(error);
+                final=false;
+                div.innerHTML+=`${error}`;
+            }finally{
+                div.innerHTML+=(final)?`resumen: CORRECTO`:`resumen: ERRORES`;
+            }
+            div.innerHTML+=`<br><br>NOTA: esta página calculó con popups (una práctica no aconsejada)`;
+        }
+
+        function creaNodo(tipo){
+            var ele=document.createElement(tipo);
+            document.body.appendChild(ele);
+            return ele;
+        }
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
+

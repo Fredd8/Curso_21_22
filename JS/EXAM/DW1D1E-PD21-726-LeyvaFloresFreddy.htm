@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet"> 
+    <!--<script src="myScript.js"></script>-->
+    <title>Document</title>
+        <!--
+            Falta:
+                Ejercicio dinámico
+        -->
+    <style>
+        *{
+            font-family: 'Source Code Pro', monospace;
+            text-shadow: 0.1em 0.1em 0.05em black;
+        }
+        div {
+            border-top-color: #CC0000;
+            border-right-color: blue;
+            border-bottom-color: #00FF00;
+            border-left-color: #CCC;
+        }
+    </style>
+    <script>
+        window.onload = crear;
+        
+
+        var numero=1;
+        function crear(){
+            var divGeneral = crearNodo(`div`,"divGeneral");
+            iniciar();
+        }
+        function iniciar(){
+            document.getElementById("divGeneral").innerHTML="";
+            numero=1;
+            document.addEventListener('click',clickCaja);
+            var div = crearNodo(`div`,numero);
+                div.style.border = "thick solid grey"; 
+                div.style.borderTopColor="silver";
+                div.style.borderLeftColor="silver";
+                div.style.width='90px';
+                div.i=numero;
+                div.style.height='180px';
+                div.style.backgroundColor=rgb();
+                div.style.color="white";
+                div.style.textAlign="center";
+                div.style.display="flex";
+                div.style.margin="5px";
+                div.style.alignItems="center";
+                div.style.justifyContent="center";
+                if((numero.toString()).length==1){
+                    div.innerHTML="0"+numero;
+                }else{
+                    div.innerHTML=numero;
+                }
+                document.getElementById("divGeneral").appendChild(div);
+
+        }
+
+        function clickCaja(){
+            numero++;
+            console.log(typeof numero);
+            if (numero<=15){
+                console.log(numero);
+                var div = crearNodo(`div`,numero);
+                div.style.border = "thick solid grey"; 
+                div.style.borderTopColor="silver";
+                div.style.borderLeftColor="silver";
+                div.style.width='90px';                
+                div.i=numero;
+                div.j=numero;
+                div.style.height='180px';
+                div.style.backgroundColor=rgb();
+                div.style.color="white";
+                div.style.textAlign="center";
+                div.style.display="flex";
+                div.style.margin="5px";
+                div.style.alignItems="center";
+                div.style.justifyContent="center";
+                div.addEventListener('click',clickCaja);
+                if((numero.toString()).length==1){
+                    div.innerHTML="0"+numero;
+                }else{
+                    div.innerHTML=numero;
+                }
+
+                if (numero == 4 || numero == 8){
+
+                    div.style.clear="left";
+                    div.style.float="left";
+                }else{
+
+                    div.style.float="left";
+                }
+
+                document.getElementById("divGeneral").appendChild(div);
+            }else{
+                crear();
+            }
+        }
+
+       
+
+        function crearNodo(tipo,id){
+            var ele=document.createElement(tipo);
+            document.body.appendChild(ele);
+            ele.id=id;
+            return ele;
+        }
+
+        function rgb(){
+            var aleX = aleatorio(0,255);
+            var aleY = aleatorio(0,255);
+            var aleZ = aleatorio(0,255);
+            console.log(aleX+","+aleY+","+aleZ);
+            var texto = 'rgb(' + aleX + ',' + aleY + ',' + aleZ + ')';
+            return texto;
+        }
+
+        function aleatorio(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
+
