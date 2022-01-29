@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang=`en`>
+<head>
+<title>Document</title>
+    <script>
+        /*
+        Actividad
+        (calendario2) 
+        Transformar en una agenda:
+        -El dia actual en otro color de fondo, azul.
+        -Imprimir todos los año del 2019 al 2029 
+        -Añadir estilos para el hover (no en los dias de relleno)
+        -Almacenar un texto en cualquier dia. Usa prompt(), no en los dias apagados, cuidado con el cancel.
+        * grupo-CALENDARIO2-expediente-ApellidosNombre.htm 
+        */
+        const anoMIN = 2019;
+        const anoMAX = 2029;
+        const valores = 49; // CAMBIAR 49
+        const meses = 12;
+        const mesesTexto=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+        window.onload = inicio;
+        function inicio(){
+            for ( let a = anoMIN; a <= anoMAX; a++) {
+            var divPapa = creaNodo("h1","");
+            divPapa.innerHTML=a;
+            divPapa.style.margin="auto";
+            divPapa.style.textAlign="center";
+            for (let i = 0; i < meses; i++) {
+                const obj = new Date(1);
+                obj.setFullYear(a);
+                obj.setMonth(i);
+                obj.setDate(obj.getDate()-15);
+                do{
+                    obj.setDate(obj.getDate()+1);
+                    //console.log(obj);
+                }while(obj.getDay()!=0);
+                creaNodo("br");
+                var div1 = creaNodo("div","");
+                div1.innerHTML=mesesTexto[i];
+                div1.style.float="left";
+                div1.style.fontSize="24px";
+                div1.style.width="100px";
+                div1.style.height="20px";
+                div1.style.textAlign="right";
+                div1.style.marginRight="5px";
+                for (let j = 0; j < valores; j++) {
+                    obj.setDate(obj.getDate()+1);
+                    var div1 = creaNodo("div","");
+                    div1.innerHTML="20";
+                    div1.style.float="left";
+                    div1.style.fontSize="14px";
+                    div1.style.width="20px";
+                    div1.style.height="40px";
+                    div1.style.marginLeft="3px";
+                    div1.style.textAlign="center";
+                    var hoy = new Date();
+                    if (obj.getDate() == hoy.getDate() && obj.getMonth() == hoy.getMonth() && obj.getFullYear() == hoy.getFullYear()){
+                        div1.style.backgroundColor ="#41b4ff";
+                    } else if(obj.getMonth()==i){
+                        div1.style.backgroundColor ="#fbf344";
+                        div1.addEventListener("click",clickFecha);
+                        div1.addEventListener(`mouseover`,divHoverOn);
+                        div1.addEventListener(`mouseout`,divHoverOff);
+                        div1.textoGuardar="";
+                    }else{
+                        div1.style.backgroundColor ="#ffdada";
+                    }
+                    var datos="";
+                    switch (obj.getDay()) {
+                        case 1:
+                            datos="L";
+                            break;
+                        case 2:
+                            datos="M";
+                            break;
+                        case 3:
+                            datos="X";
+                            break;
+                        case 4:
+                            datos="J";
+                            break;
+                        case 5:
+                            datos="V";
+                            break;
+                        case 6:
+                            datos="S";
+                            div1.style.color="red";
+                            break;
+                        case 0:
+                            datos="D";
+                            div1.style.color="red";
+                            break;
+                        default:
+                            break;
+                    }
+                    div1.innerHTML=obj.getDate()+"<br/>"+datos;
+                }
+                creaNodo("br").style.clear="left";
+            }
+
+        }
+        }   
+
+        function clickFecha(){            
+            var texto = this.textoGuardar;
+            texto = prompt(`Introduce texto:\n\nAnterior frase:"${texto}"`);
+            this.textoGuardar=texto;
+        }
+
+        function divHoverOn(){
+            this.style.backgroundColor=`#b7af00`;
+        }
+        
+        function divHoverOff(){
+            this.style.backgroundColor=`#fff400`;
+        }
+
+        function creaNodo(tipo,id){
+            var ele=document.createElement(tipo);
+            ele.id=id;
+            document.body.appendChild(ele);
+            return ele;
+        }
+    
+    </script>
+</head>
+<body>
+</body>
+</html>
