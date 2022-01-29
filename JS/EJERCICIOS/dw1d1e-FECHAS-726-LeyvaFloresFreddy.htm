@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang=`en`>
+<head>
+<title>Document</title>
+    <script>
+        /*
+        Actividad
+        (fechas)
+        Ejercicio para el tema de fechas.
+        1) añadimos un control input type date y el evento change para imprimir una fecha en formato corto
+        2) almacenamos 24 fechas generadas al azar en un array. las fechas es cualquier dia del año 2019
+        3) organizar las fechas en un display a 6 columnas
+        4) resolver las operaciones con el array de objetos fechas
+        lenguaje:=[], push, new Date, setDate, getDate, sort(funtion), input type date, (1000*60*60*24), toFixed, getDate, getMonth, getFullYear, getTime, padStart
+        * grupo-FECHAS-expediente-ApellidosNombre.htm 
+        */
+        
+        const arrayDate=[];
+        const nFechas=24;
+        window.onload = inicio;
+        function inicio(){
+            // PARTE 0: generar Array de fechas
+            generarArrayFecha();
+
+            // PARTE 1: titulo + caja1
+            mostrarInput();
+
+            // PARTE 2: titulo + caja2
+            mostrarTitulo(`Listado 24 fechas a 6 columnas`);
+            mostrarTablaValores();
+            
+            // PARTE 3: titulo + caja3
+            mostrarTitulo(`De menor a mayor`);
+            arrayDate.sort(function(a,b){return a-b;});
+            mostrarTablaValores();
+
+            // PARTE 4: titulo + caja4
+            mostrarTitulo(`De menor a mayor`);
+            arrayDate.reverse(); // ó arrayDate.sort(function(a,b){return b-a;});
+            mostrarTablaValores();
+
+            // PARTE 5: titulo + caja5
+            mostrarTitulo(`Diferencias en dias con la siguiente fecha, a dos caracteres sin decimales`);
+            arrayDate.reverse();
+            var valores = mostrarTablaValores6x4();
+
+            // PARTE 6: titulo + caja6
+            mostrarTitulo(`Mayor y menor diferencia entre dias`);
+            mostrarTablaValores1x1(`mayor:${valores[0]} y menor:${valores[1]}`);
+
+            // PARTE 7: titulo + caja7
+            mostrarTitulo(`Fecha mas alta y mas baja`);
+            mostrarTablaValores1x1(`
+                baja:${arrayDate[0].getDate()}-${(arrayDate[0].getMonth()+1)}-${arrayDate[0].getFullYear()} 
+                alta:${arrayDate[arrayDate.length-1].getDate()}-${(arrayDate[arrayDate.length-1].getMonth()+1)}-${arrayDate[arrayDate.length-1].getFullYear()} `);
+
+            // PARTE 8: titulo + caja8
+            mostrarTitulo(`Dias entre la fecha mas alta y mas baja`);
+            var days = parseInt( (Math.abs(arrayDate[arrayDate.length-1]-arrayDate[0]) / (1000 * 3600 * 24) ) .toFixed() );
+            mostrarTablaValores1x1(`dias entre fechas:${days}`);
+
+            creaNodo("div","").innerHTML="<br/><br/>";
+        }
+
+        function generarArrayFecha(){
+            for (let i = 0; i < nFechas; i++) {
+                var sirve = true;
+                do {
+                    var d = aleatorio(1,31);
+                    var m = aleatorio(0,12);
+                    var a = 2019;
+                    sirve = validarFecha(d,m,a);
+                } while (sirve != true);
+                const objFecha = new Date();
+                objFecha.setFullYear(2019);
+                objFecha.setMonth(m);
+                objFecha.setDate(d);
+                arrayDate.push(objFecha);
+            }
+        }
+
+        function mostrarInput(){
+            var divCaja1 = creaNodo("div","");
+            divCaja1.innerHTML=`
+                <b>Ejemplo de control input type="date"</b><br/>
+                <div name="div1">
+                    <input type=date id=fechaInput>
+                </div>
+                <div name="div1">
+                    fecha
+                </div>
+            `;
+            var div1 = document.getElementsByName("div1");
+            //console.log(div1); // Array
+            for (let div of div1) {
+                div.style.width="150px";
+                div.style.height="30px";
+                div.style.border="1px solid silver";
+                div.style.display="flex"; 
+                div.style.alignItems="center";
+                div.style.justifyContent="center";
+                div.style.float="left";
+                div.addEventListener("change",cambioFecha);
+            }
+        }
+      
+        function cambioFecha(){
+            var fechaInput = document.getElementById("fechaInput");
+            //console.log(fechaInput);
+            document.getElementsByName("div1")[1].innerHTML=fechaInput.value;
+        }
+
+        function validarFecha (d,m,a){
+                var ok = true;
+                if( (m < 1) || (m > 12) || (d < 1) || (d > 31) ){
+                    ok = false;
+                }else{
+                    if((a%4 != 0) && (m == 2) && (d > 28)){
+                        ok = false;
+                    }else{
+                        if( (((m == 4) || (m == 6) || (m == 9) || (m==11)) && (d>30)) || ((m==2) && (d>29)) )
+                            ok = false;
+                    }
+                }
+                return ok;
+            }
+
+        function mostrarTitulo(titulo){
+            var divCaja2 = creaNodo("div","");
+            divCaja2.innerHTML=`<br/>`;
+            divCaja2.innerHTML+=`<b> ${titulo} </b>`;
+            divCaja2.style.clear="left";
+        }
+        
+        function mostrarTablaValores(){
+            for (let i = 0; i < nFechas; i++) {
+                var div = creaNodo("div","");
+                div.style.width="100px";
+                div.style.height="20px";
+                div.style.border="1px solid silver";
+                div.style.display="flex"; 
+                div.style.alignItems="center";
+                div.style.justifyContent="right";
+                if (i==6 || i==12 || i==18){
+                    div.style.clear="left";
+                }
+                div.style.float="left";
+                div.innerHTML=arrayDate[i].getDate() + "-" + (arrayDate[i].getMonth()+1) + "-" + arrayDate[i].getFullYear() + "<br />" ;
+            }
+        }
+
+        function mostrarTablaValores6x4(){
+            var valores=[];
+            for (let i = 0; i < nFechas-1; i++) {
+                var div = creaNodo("div","");
+                div.style.width="150px";
+                div.style.height="20px";
+                div.style.border="1px solid silver";
+                div.style.display="flex"; 
+                div.style.alignItems="center";
+                div.style.justifyContent="right";
+                if (i==4 || i==8 || i==12 || i==16 || i== 20){
+                    div.style.clear="left";
+                }
+                div.style.float="left";
+                var day1 = arrayDate[i];
+                var day2 = arrayDate[i+1];
+                var difference= Math.abs(day2-day1);
+                var days = parseInt( (difference/(1000 * 3600 * 24)).toFixed() );
+                //console.log(typeof days);
+                var result = ((days).length == 1)?"0"+days:days; 
+                div.innerHTML=arrayDate[i].getDate() + "-" + (arrayDate[i].getMonth()+1) + "-" + arrayDate[i].getFullYear() +":"+result+ "<br />" ;
+                if (i==0){
+                    var valorMayor=days;
+                    var valorMenor=days;
+                }
+                if(days > valorMayor){
+                    valorMayor = days;
+                }
+                if(days < valorMenor){
+                    valorMenor = days;
+                } 
+            }
+            valores[0]=valorMayor;
+            valores[1]=valorMenor;
+            //console.log(valores);
+            return valores;
+        }
+
+        function mostrarTablaValores1x1(contenido){
+            var div = creaNodo("div","");
+            div.style.width="300px";
+            div.style.height="20px";
+            div.style.border="1px solid silver";
+            div.style.display="flex"; 
+            div.style.alignItems="center";
+            div.style.justifyContent="left";
+            div.style.float="left";
+            div.innerHTML=contenido;
+        }
+
+        function aleatorio(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function creaNodo(tipo,id){
+            var ele=document.createElement(tipo);
+            ele.id=id;
+            document.body.appendChild(ele);
+            return ele;
+        }
+    
+    </script>
+</head>
+<body>
+</body>
+</html>

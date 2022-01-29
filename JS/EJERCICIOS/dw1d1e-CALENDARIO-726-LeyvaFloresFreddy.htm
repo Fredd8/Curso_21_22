@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang=`en`>
+<head>
+<title>Document</title>
+    <script>
+        /*
+        Actividad
+        (calendario)
+        Realiza un calendario lineal
+        -Establece con float y clear el maquetado de los dias en lineas
+        -Poner todos los textos a 14px
+        -Establece los estilos de cada tipo de dia usando clases (laborable,festivo,dentro del mes: normal,apagado)
+        -Añade los meses de los meses con letras a 24px
+        lenguaje:[],getMonth,getDay(dia de la semana),new Date,getTime,setDate,getDay()+1,var1=(cond)?val1:val2,if(cond)var=val;
+        * grupo-CALENDARIO-expediente-ApellidosNombre.htm 
+        */
+        const anoCualquiera=2022;
+        const valores = 49;
+        const meses = 12;
+        const mesesTexto=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+        window.onload = inicio;
+        function inicio(){
+            var divPapa = creaNodo("div","");
+            for (let i = 0; i < meses; i++) {
+                const obj = new Date(1);
+                obj.setFullYear(anoCualquiera);
+                obj.setMonth(i);
+                obj.setDate(obj.getDate()-15);
+                do{
+                    obj.setDate(obj.getDate()+1);
+                    //console.log(obj);
+                }while(obj.getDay()!=0);
+                creaNodo("br");
+                var div1 = creaNodo("div","");
+                div1.innerHTML=mesesTexto[i];
+                div1.style.float="left";
+                div1.style.fontSize="24px";
+                div1.style.width="100px";
+                div1.style.height="20px";
+                div1.style.textAlign="right";
+                div1.style.marginRight="5px";
+                for (let j = 0; j < valores; j++) {
+                    obj.setDate(obj.getDate()+1);
+                    var div1 = creaNodo("div","");
+                    div1.innerHTML="20";
+                    div1.style.float="left";
+                    div1.style.fontSize="14px";
+                    div1.style.width="20px";
+                    div1.style.height="40px";
+                    div1.style.marginLeft="3px";
+                    div1.style.textAlign="center";
+                    div1.style.backgroundColor =(obj.getMonth()==i)?"#f5eb00":"#ffdada";
+                    var datos="";
+                    switch (obj.getDay()) {
+                        case 1:
+                            datos="L";
+                            break;
+                        case 2:
+                            datos="M";
+                            break;
+                        case 3:
+                            datos="X";
+                            break;
+                        case 4:
+                            datos="J";
+                            break;
+                        case 5:
+                            datos="V";
+                            break;
+                        case 6:
+                            datos="S";
+                            div1.style.color="red";
+                            break;
+                        case 0:
+                            datos="D";
+                            div1.style.color="red";
+                            break;
+                        default:
+                            break;
+                    }
+                    div1.innerHTML=obj.getDate()+"<br/>"+datos;
+                }
+                creaNodo("br").style.clear="left";
+            }
+        }   
+
+        function creaNodo(tipo,id){
+            var ele=document.createElement(tipo);
+            ele.id=id;
+            document.body.appendChild(ele);
+            return ele;
+        }
+    
+    </script>
+</head>
+<body>
+</body>
+</html>
