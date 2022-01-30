@@ -13,106 +13,121 @@
         -Almacenar un texto en cualquier dia. Usa prompt(), no en los dias apagados, cuidado con el cancel.
         * grupo-CALENDARIO2-expediente-ApellidosNombre.htm 
         */
-        const anoMIN = 2019;
-        const anoMAX = 2029;
-        const valores = 49; // CAMBIAR 49
-        const meses = 12;
+        var ano=[2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030];
+        var valores = 49;
         const mesesTexto=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
-        window.onload = inicio;
-        function inicio(){
-            for ( let a = anoMIN; a <= anoMAX; a++) {
-            var divPapa = creaNodo("h1","");
-            divPapa.innerHTML=a;
-            divPapa.style.margin="auto";
-            divPapa.style.textAlign="center";
+        const dias=["D","L","M","X","J","V","S"];
+        window.onload = crear;
+        function crear(){
+            document.body.style.fontSize="10px";
+            document.body.style.backgroundColor="#f2f3f4";
+            var menu = creaNodo("div","divMenu");
+            menu.style.width="1000px";
+            menu.style.height="100px";
+            menu.style.margin="auto";
+            menu.style.display="flex";          
+            for (let i = 0; i < ano.length; i++) {
+                var divAno = creaNodo("div",ano[i]);
+                menu.appendChild(divAno);
+                divAno.innerHTML=ano[i];
+                divAno.style.width="60px";
+                divAno.style.height="30px";
+                divAno.style.margin="auto";
+                divAno.style.fontSize="12px";
+                divAno.style.display="flex";
+                divAno.style.justifyContent="center";
+                divAno.style.alignItems="center";
+                divAno.style.backgroundColor ="#ffa229";
+                divAno.style.border="3px solid #FF5733";
+                divAno.style.borderRadius="10px";
+                divAno.style.borderTopColor="silver";
+                divAno.style.borderLeftColor="silver";
+                divAno.addEventListener("click",inicio);
+            }
+            var divBuda = creaNodo("div","divBuda");
+            divBuda.style.width="760px";
+            divBuda.style.height="480px"; 
+            divBuda.style.margin="auto";
+            divBuda.style.paddingRight="40px"; 
+            divBuda.style.border="5px solid #FF5733";
+            divBuda.style.borderRadius="10px";
+            divBuda.style.borderTopColor="silver";
+            divBuda.style.borderLeftColor="silver";
+            divBuda.style.backgroundColor=" #fbeee6 ";      
+            inicio(2022);
+        }
+
+        function inicio(ano){
+            ano = (this.id !== undefined)? this.id : ano;
+            var divBuda = document.getElementById("divBuda");
+            divBuda.innerHTML="";
+            var divAno = creaNodo("h1","divAno");
+            divBuda.appendChild(divAno);
+            divAno.innerHTML=ano;
+            divAno.style.paddingTop="10px";
+            divAno.style.textAlign="center";
+            var meses = mesesTexto.length;
             for (let i = 0; i < meses; i++) {
-                const obj = new Date(1);
-                obj.setFullYear(a);
+                var obj = new Date(1);
+                obj.setFullYear(ano);
                 obj.setMonth(i);
                 obj.setDate(obj.getDate()-15);
                 do{
                     obj.setDate(obj.getDate()+1);
                     //console.log(obj);
-                }while(obj.getDay()!=0);
-                creaNodo("br");
-                var div1 = creaNodo("div","");
-                div1.innerHTML=mesesTexto[i];
-                div1.style.float="left";
-                div1.style.fontSize="24px";
-                div1.style.width="100px";
-                div1.style.height="20px";
-                div1.style.textAlign="right";
-                div1.style.marginRight="5px";
+                }while(obj.getDay()!=1);
+                var divMes = creaNodo("div",mesesTexto[i]);
+                divBuda.appendChild(divMes);
+                divMes.innerHTML=mesesTexto[i];
+                divMes.style.float="left";
+                divMes.style.fontSize="18px";
+                divMes.style.width="100px";
+                divMes.style.height="20px";
+                divMes.style.textAlign="right";
+                divMes.style.marginRight="5px";
+                divMes.style.clear="left";
                 for (let j = 0; j < valores; j++) {
-                    obj.setDate(obj.getDate()+1);
-                    var div1 = creaNodo("div","");
-                    div1.innerHTML="20";
+                    var div1 = creaNodo("div",obj.getDate()+"-"+obj.getMonth()+"-"+obj.getFullYear());
+                    divBuda.appendChild(div1);
                     div1.style.float="left";
-                    div1.style.fontSize="14px";
-                    div1.style.width="20px";
-                    div1.style.height="40px";
-                    div1.style.marginLeft="3px";
+                    div1.style.width="10px";
+                    div1.style.height="30px";
+                    div1.style.margin="0 3px 3px 0";
                     div1.style.textAlign="center";
                     var hoy = new Date();
                     if (obj.getDate() == hoy.getDate() && obj.getMonth() == hoy.getMonth() && obj.getFullYear() == hoy.getFullYear()){
                         div1.style.backgroundColor ="#41b4ff";
+                        div1.addEventListener("click",clickFecha);
                     } else if(obj.getMonth()==i){
-                        div1.style.backgroundColor ="#fbf344";
+                        div1.style.backgroundColor ="#f1c40f";
                         div1.addEventListener("click",clickFecha);
                         div1.addEventListener(`mouseover`,divHoverOn);
                         div1.addEventListener(`mouseout`,divHoverOff);
                         div1.textoGuardar="";
                     }else{
-                        div1.style.backgroundColor ="#ffdada";
+                        div1.style.backgroundColor =" #f9e79f ";
                     }
-                    var datos="";
-                    switch (obj.getDay()) {
-                        case 1:
-                            datos="L";
-                            break;
-                        case 2:
-                            datos="M";
-                            break;
-                        case 3:
-                            datos="X";
-                            break;
-                        case 4:
-                            datos="J";
-                            break;
-                        case 5:
-                            datos="V";
-                            break;
-                        case 6:
-                            datos="S";
-                            div1.style.color="red";
-                            break;
-                        case 0:
-                            datos="D";
-                            div1.style.color="red";
-                            break;
-                        default:
-                            break;
-                    }
-                    div1.innerHTML=obj.getDate()+"<br/>"+datos;
+                    var letras=dias[obj.getDay()];
+                    div1.innerHTML=obj.getDate()+"<br/>"+letras;
+                    div1.style.color= (obj.getDay()==6 || obj.getDay()==0)?"red":"black";
+                    obj.setDate(obj.getDate()+1);
                 }
-                creaNodo("br").style.clear="left";
             }
 
-        }
-        }   
+        }  
 
-        function clickFecha(){            
+        function clickFecha(){
             var texto = this.textoGuardar;
             texto = prompt(`Introduce texto:\n\nAnterior frase:"${texto}"`);
             this.textoGuardar=texto;
         }
 
         function divHoverOn(){
-            this.style.backgroundColor=`#b7af00`;
+            this.style.backgroundColor=` #b7950b `;
         }
         
         function divHoverOff(){
-            this.style.backgroundColor=`#fff400`;
+            this.style.backgroundColor=`#f1c40f `;
         }
 
         function creaNodo(tipo,id){
